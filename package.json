@@ -4,15 +4,20 @@
   "description": "A simple project to review node",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./build && tsc",
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix",
     "start": "npm run build && node build/index.js",
     "start:dev": "npx nodemon",
-    "build": "rimraf ./build && tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rodrigo Marcondes",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.40.0",
     "nodemon": "^2.0.22",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
