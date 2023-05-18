@@ -1,0 +1,6 @@
+- Configure Express
+- Create some API using Express
+- Deploy to AWS
+- Configure Jest
+- Use Jest to test something
+- Start some CI/CD on AWS
