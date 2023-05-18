@@ -1,5 +1,3 @@
-- Configure Express
-- Create some API using Express
 - Deploy to AWS
 - Configure Jest
 - Use Jest to test something
