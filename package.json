@@ -1,0 +1,21 @@
+{
+  "name": "node-review",
+  "version": "1.0.0",
+  "description": "A simple project to review node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node build/index.js",
+    "start:dev": "npx nodemon",
+    "build": "rimraf ./build && tsc"
+  },
+  "author": "Rodrigo Marcondes",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.2.1",
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
