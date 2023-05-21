@@ -1,7 +1,3 @@
-export interface BaseMonster {
+export interface IMonster {
     name: string;
-}
-
-export interface Monster extends BaseMonster {
-    id: number;
 }
