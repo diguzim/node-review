@@ -1,10 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { Monster } from '@models';
+import { MonsterService } from "services";
 
 router.get('/', async (req, res) => {
     try {
-        const monsters = await Monster.find();
+        const monsters = await MonsterService.getAll();
 
         res.json(monsters);
     } catch (error) {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const monster = await Monster.findById(id);
+        const monster = await MonsterService.get(id);
 
         if (!monster) {
             return res.status(404).json({ error: 'Monster not found' });
@@ -31,8 +31,7 @@ router.post('/', async (req, res) => {
     try {
         const { name } = req.body;
 
-        const monster = Monster.build({ name });
-        monster.save();
+        const monster = await MonsterService.create({ name });
         res.json(monster);
     } catch (error) {
         res.status(500).json({ error: 'Error when creating a monster' });
@@ -44,7 +43,7 @@ router.put('/:id', async (req, res) => {
         const { id } = req.params;
         const { name } = req.body;
 
-        const monster = await Monster.findByIdAndUpdate(id, { name }, { new: true });
+        const monster = await MonsterService.update(id, { name });
 
         if (!monster) {
             return res.status(404).json({ error: 'Monster not found' });
@@ -60,7 +59,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const monster = await Monster.findByIdAndDelete(id);
+        const monster = await MonsterService.delete(id);
 
         if (!monster) {
             return res.status(404).json({ error: 'Monster not found' });
