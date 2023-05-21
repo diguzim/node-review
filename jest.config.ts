@@ -87,9 +87,6 @@ export default {
   //   "node"
   // ],
 
-  // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
-
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
 
@@ -124,9 +121,13 @@ export default {
   rootDir: "tests",
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  // roots: ["<rootDir>"],
+
+  // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
+  moduleNameMapper: {
+    '^@models': '<rootDir>/../src/models',
+    '^@interfaces': '<rootDir>/../src/interfaces',
+  },
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",

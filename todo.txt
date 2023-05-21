@@ -1,2 +1,3 @@
+- Make a CRUD
 - Use Jest to test something
 - Start some CI/CD on AWS
