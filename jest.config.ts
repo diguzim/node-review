@@ -127,6 +127,8 @@ export default {
   moduleNameMapper: {
     '^@models': '<rootDir>/../src/models',
     '^@interfaces': '<rootDir>/../src/interfaces',
+    '^@services': '<rootDir>/../src/services',
+    '^@controllers': '<rootDir>/../src/controllers',
   },
 
   // Allows you to use a custom runner instead of Jest's default test runner

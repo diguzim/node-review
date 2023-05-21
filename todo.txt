@@ -1,6 +1,5 @@
-- Add controller layer
 - Add some serialization/deserialization to params and response
-- Use Jest to test something
 - Add authentication
+- Use Jest to test something
 - create a docker file for mongodb
 - Start some CI/CD on AWS
