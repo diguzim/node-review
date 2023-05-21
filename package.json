@@ -2,12 +2,12 @@
   "name": "node-review",
   "version": "1.0.0",
   "description": "A simple project to review node",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "build": "rimraf ./build && tsc",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "start": "npm run build && node build/index.js",
+    "start": "npm run build && node build/app.js",
     "start:dev": "npx nodemon",
     "test": "jest --config=./jest.config.ts"
   },
