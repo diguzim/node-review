@@ -27,9 +27,7 @@ export const UserController = {
     },
     create: async (req: Request, res: Response) => {
         try {
-            const { name, email } = req.body;
-    
-            const user = await UserService.create({ name, email });
+            const user = await UserService.create(req.body);
             res.json(user);
         } catch (error) {
             res.status(500).json({ error: 'Error when creating a user' });
@@ -38,9 +36,7 @@ export const UserController = {
     update: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const { name, email } = req.body;
-    
-            const user = await UserService.update(id, { name, email });
+            const user = await UserService.update(id, req.body);
     
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
@@ -48,6 +44,7 @@ export const UserController = {
     
             res.json(user);
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: 'Error when updating a user' });
         }
     },
