@@ -22,7 +22,7 @@ export const UserController = {
     
             res.json(user);
         } catch (error) {
-            res.status(500).json({ error: 'Error when fething user' });
+            res.status(500).json({ error: 'Error when fething an user' });
         }
     },
     create: async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ export const UserController = {
             const user = await UserService.create(req.body);
             res.json(user);
         } catch (error) {
-            res.status(500).json({ error: 'Error when creating a user' });
+            res.status(500).json({ error: 'Error when creating an user' });
         }
     },
     update: async (req: Request, res: Response) => {
@@ -45,7 +45,7 @@ export const UserController = {
             res.json(user);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ error: 'Error when updating a user' });
+            res.status(500).json({ error: 'Error when updating an user' });
         }
     },
     delete: async(req: Request, res: Response) => {
@@ -60,7 +60,16 @@ export const UserController = {
     
             res.json({ message: 'User deleted with success' });
         } catch (error) {
-            res.status(500).json({ error: 'Error when deleting a user' });
+            res.status(500).json({ error: 'Error when deleting an user' });
+        }
+    },
+    login: async(req: Request, res: Response) => {
+        try {
+            const token = await UserService.login(req.body);
+            console.log(token);
+            res.json({ authenticationToken: token });
+        } catch (error) {
+            res.status(500).json({ error: 'Error when authenticating an user' });
         }
     }
 };

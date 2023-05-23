@@ -22,4 +22,8 @@ router.delete('/:id', async (req, res) => {
     UserController.delete(req, res);
 });
 
+router.post('/login', async (req, res) => {
+    UserController.login(req, res);
+});
+
 export default router;
