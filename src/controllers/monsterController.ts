@@ -61,7 +61,7 @@ export const MonsterController = {
                 return res.status(404).json({ error: 'Monster not found' });
             }
     
-            res.json({ message: 'Monstro deleted with success' });
+            res.json({ message: 'Monster deleted with success' });
         } catch (error) {
             res.status(500).json({ error: 'Error when deleting a monster' });
         }

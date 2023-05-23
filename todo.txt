@@ -3,3 +3,4 @@
 - Use Jest to test something
 - create a docker file for mongodb
 - Start some CI/CD on AWS
+- Deploy routes as lambda functions on a serverless approach
