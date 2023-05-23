@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { MonsterController } from "@controllers";
+import { verifyAuthenticationToken } from "routes/middlewares";
 
 router.get('/', async (req, res) => {
     MonsterController.getAll(req, res);
@@ -10,7 +11,7 @@ router.get('/:id', async (req, res) => {
     MonsterController.get(req, res);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', verifyAuthenticationToken, async (req, res) => {
     MonsterController.create(req, res);
 });
 

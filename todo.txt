@@ -1,5 +1,4 @@
 - Add some serialization/deserialization to params and response
-- Add authentication
 - Add informative error messages on API response upon failures
 - Use Jest to test something
 - create a docker file for mongodb
