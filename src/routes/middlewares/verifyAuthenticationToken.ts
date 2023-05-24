@@ -1,24 +1,24 @@
+import { User, UserDoc } from "@models";
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
-export function verifyAuthenticationToken(req: Request, res: Response, next: NextFunction) {
-  console.log(req.headers);
-  console.log(req.header('Authorization'));
+export async function verifyAuthenticationToken(req: Request, res: Response, next: NextFunction) {
   const token = req.header('Authorization')?.split(' ')[1];
-  console.log(token);
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid token' });
-    }
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
+    
+    const user = await User.findById((decodedToken as JwtPayload).userId);
 
-    //TODO extend the Request object to allow that
-    // req.user = user;
+    req.user = user as UserDoc;
+    
     next();
-  });
+  } catch (error) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
 }
 
