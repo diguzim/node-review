@@ -1,3 +1,4 @@
+import { UserDoc } from '@models';
 import { MonsterService } from '@services';
 import { Request, Response } from 'express';
 
@@ -27,9 +28,10 @@ export const MonsterController = {
     },
     create: async (req: Request, res: Response) => {
         try {
+            const user = req.user;
             const { name } = req.body;
     
-            const monster = await MonsterService.create({ name });
+            const monster = await MonsterService.create({ name }, user as UserDoc);
             res.json(monster);
         } catch (error) {
             res.status(500).json({ error: 'Error when creating a monster' });

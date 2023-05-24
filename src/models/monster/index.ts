@@ -1,5 +1,5 @@
 import { IMonster } from '@interfaces';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 interface MonsterDoc extends mongoose.Document, IMonster {}
 
@@ -11,6 +11,11 @@ const monsterSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    userId: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: false
     }
 });
 

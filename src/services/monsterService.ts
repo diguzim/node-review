@@ -1,5 +1,5 @@
 import { IMonster } from '@interfaces';
-import { Monster } from '@models';
+import { Monster, UserDoc } from '@models';
 
 export const MonsterService = {
     getAll: async () => {
@@ -8,8 +8,11 @@ export const MonsterService = {
     get: async (id: string) => {
         return await Monster.findById(id);
     },
-    create: async (params: IMonster) => {
-        const monster = Monster.build(params);
+    create: async (params: IMonster, user: UserDoc) => {
+        const monster = Monster.build({
+            ...params,
+            userId: user?.id
+        });
         await monster.save();
         return monster;
     },
@@ -17,7 +20,7 @@ export const MonsterService = {
         const monster = await Monster.findByIdAndUpdate(id, params, { new: true });
         return monster;
     },
-    delete: async(id: string) => {
+    delete: async (id: string) => {
         return await Monster.findByIdAndDelete(id);
     }
 };
