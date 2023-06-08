@@ -1,2 +1,2 @@
-export * from './monsterController';
+export * from './creatureController';
 export * from './userController';

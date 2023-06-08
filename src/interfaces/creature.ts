@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface IMonster {
+export interface ICreature {
     name: string;
     userId?: Types.ObjectId;
 }

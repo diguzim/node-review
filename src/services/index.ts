@@ -1,2 +1,2 @@
-export * from './monsterService';
+export * from './creatureService';
 export * from './userService';

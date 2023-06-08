@@ -1,10 +1,10 @@
 import express from "express";
-import monsters from "./monsters";
+import creatures from "./creatures";
 import users from "./users";
 
 const app = express();
 
-app.use('/monsters', monsters);
+app.use('/creatures', creatures);
 app.use('/users', users);
 
 export default app;
