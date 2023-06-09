@@ -7,7 +7,7 @@ export const CreatureController = {
         try {
             const creatures = await CreatureService.getAll();
 
-            return res.json(creatures);
+            return res.status(200).json(creatures);
         } catch (error) {
             return res.status(500).json({ error: 'Error when fething creatures' });
         }
@@ -21,7 +21,7 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            return res.json(creature);
+            return res.status(200).json(creature);
         } catch (error) {
             return res.status(500).json({ error: 'Error when fething creature' });
         }
@@ -32,7 +32,7 @@ export const CreatureController = {
             const { name } = req.body;
 
             const creature = await CreatureService.create({ name }, user as UserDoc);
-            return res.json(creature);
+            return res.status(201).json(creature);
         } catch (error) {
             return res.status(500).json({ error: 'Error when creating a creature' });
         }
@@ -48,7 +48,7 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            return res.json(creature);
+            return res.status(200).json(creature);
         } catch (error) {
             return res.status(500).json({ error: 'Error when updating a creature' });
         }
@@ -63,7 +63,7 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            return res.json({ message: 'Creature deleted with success' });
+            res.status(204);
         } catch (error) {
             return res.status(500).json({ error: 'Error when deleting a creature' });
         }
