@@ -7,9 +7,9 @@ export const CreatureController = {
         try {
             const creatures = await CreatureService.getAll();
 
-            res.json(creatures);
+            return res.json(creatures);
         } catch (error) {
-            res.status(500).json({ error: 'Error when fething creatures' });
+            return res.status(500).json({ error: 'Error when fething creatures' });
         }
     },
     get: async (req: Request, res: Response) => {
@@ -21,9 +21,9 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            res.json(creature);
+            return res.json(creature);
         } catch (error) {
-            res.status(500).json({ error: 'Error when fething creature' });
+            return res.status(500).json({ error: 'Error when fething creature' });
         }
     },
     create: async (req: Request, res: Response) => {
@@ -32,9 +32,9 @@ export const CreatureController = {
             const { name } = req.body;
 
             const creature = await CreatureService.create({ name }, user as UserDoc);
-            res.json(creature);
+            return res.json(creature);
         } catch (error) {
-            res.status(500).json({ error: 'Error when creating a creature' });
+            return res.status(500).json({ error: 'Error when creating a creature' });
         }
     },
     update: async (req: Request, res: Response) => {
@@ -48,9 +48,9 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            res.json(creature);
+            return res.json(creature);
         } catch (error) {
-            res.status(500).json({ error: 'Error when updating a creature' });
+            return res.status(500).json({ error: 'Error when updating a creature' });
         }
     },
     delete: async (req: Request, res: Response) => {
@@ -63,9 +63,9 @@ export const CreatureController = {
                 return res.status(404).json({ error: 'Creature not found' });
             }
 
-            res.json({ message: 'Creature deleted with success' });
+            return res.json({ message: 'Creature deleted with success' });
         } catch (error) {
-            res.status(500).json({ error: 'Error when deleting a creature' });
+            return res.status(500).json({ error: 'Error when deleting a creature' });
         }
     }
 };

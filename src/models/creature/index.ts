@@ -1,7 +1,7 @@
 import { ICreature } from '@interfaces';
 import mongoose, { Types } from 'mongoose';
 
-interface CreatureDoc extends mongoose.Document, ICreature { }
+export interface CreatureDoc extends mongoose.Document, ICreature { }
 
 interface CreatureModelInterface extends mongoose.Model<CreatureDoc> {
     build(attr: ICreature): CreatureDoc;
