@@ -4,7 +4,7 @@
   "description": "A simple project to review node",
   "main": "src/app.ts",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./build && tsc -p tsconfig.build.json",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "start": "npm run build && node build/app.js",
