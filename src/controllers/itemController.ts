@@ -7,7 +7,7 @@ export const ItemController = {
         try {
             const items = await ItemService.getAll();
 
-            res.json(items);
+            res.status(200).json(items);
         } catch (error) {
             res.status(500).json({ error: 'Error when fething items' });
         }
@@ -21,9 +21,9 @@ export const ItemController = {
                 return res.status(404).json({ error: 'Item not found' });
             }
 
-            res.json(item);
+            res.status(200).json(item);
         } catch (error) {
-            res.status(500).json({ error: 'Error when fething item' });
+            res.status(500).json({ error: 'Error when fething an item' });
         }
     },
     create: async (req: Request, res: Response) => {
@@ -31,10 +31,13 @@ export const ItemController = {
             const user = req.user;
             const { name } = req.body;
 
+            console.log(`name: ${name}`);
+            console.log(`user: ${user}`);
+
             const item = await ItemService.create({ name }, user as UserDoc);
-            res.json(item);
+            res.status(201).json(item);
         } catch (error) {
-            res.status(500).json({ error: 'Error when creating a item' });
+            res.status(500).json({ error: 'Error when creating an item' });
         }
     },
     update: async (req: Request, res: Response) => {
@@ -48,9 +51,9 @@ export const ItemController = {
                 return res.status(404).json({ error: 'Item not found' });
             }
 
-            res.json(item);
+            res.status(200).json(item);
         } catch (error) {
-            res.status(500).json({ error: 'Error when updating a item' });
+            res.status(500).json({ error: 'Error when updating an item' });
         }
     },
     delete: async (req: Request, res: Response) => {
@@ -63,9 +66,9 @@ export const ItemController = {
                 return res.status(404).json({ error: 'Item not found' });
             }
 
-            res.json({ message: 'Item deleted with success' });
+            res.status(204).json({ message: 'Item deleted with success' });
         } catch (error) {
-            res.status(500).json({ error: 'Error when deleting a item' });
+            res.status(500).json({ error: 'Error when deleting an item' });
         }
     }
 };

@@ -1,12 +1,8 @@
 import { CreatureController } from '@controllers';
 import { CreatureService } from '@services';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { fakeResponse } from '@test_helpers';
-
-test('adds 1 + 2 to equal 3', () => {
-    expect(1 + 2).toBe(3);
-});
 
 describe('CreatureController', () => {
     const creature = {
