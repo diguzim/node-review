@@ -55,7 +55,7 @@ export const UserController = {
             const user = await UserService.delete(id);
 
             if (!user) {
-                return res.status(404).json({ error: 'user not found' });
+                return res.status(404).json({ error: 'User not found' });
             }
 
             res.status(200).json({ message: 'User deleted with success' });

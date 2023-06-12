@@ -137,6 +137,18 @@ describe('UserController', () => {
         });
 
         describe('error', () => {
+            it('should return 404 with proper error message when user is not found', async () => {
+                jest.spyOn(UserService, 'update').mockImplementation(() => {
+                    return Promise.resolve(null);
+                });
+
+                await UserController.update(req, fakeResponse);
+
+                expect(UserService.update).toHaveBeenCalled();
+                expect(fakeResponse.status).toHaveBeenCalledWith(404);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'User not found' });
+            });
+
             it('should return 500 with proper error message when catches an exception', async () => {
                 jest.spyOn(UserService, 'update').mockImplementation(() => {
                     return Promise.reject();
@@ -173,6 +185,18 @@ describe('UserController', () => {
         });
 
         describe('error', () => {
+            it('should return 404 with proper error message when user is not found', async () => {
+                jest.spyOn(UserService, 'delete').mockImplementation(() => {
+                    return Promise.resolve(null);
+                });
+
+                await UserController.delete(req, fakeResponse);
+
+                expect(UserService.delete).toHaveBeenCalled();
+                expect(fakeResponse.status).toHaveBeenCalledWith(404);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'User not found' });
+            });
+
             it('should return 500 with proper error message when catches an exception', async () => {
                 jest.spyOn(UserService, 'delete').mockImplementation(() => {
                     return Promise.reject();

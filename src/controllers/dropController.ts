@@ -6,7 +6,7 @@ export const DropController = {
         try {
             const drops = await DropService.getAll();
 
-            res.json(drops);
+            res.status(200).json(drops);
         } catch (error) {
             res.status(500).json({ error: 'Error when fething drops' });
         }
@@ -20,7 +20,7 @@ export const DropController = {
                 return res.status(404).json({ error: 'Drop not found' });
             }
 
-            res.json(drop);
+            res.status(200).json(drop);
         } catch (error) {
             res.status(500).json({ error: 'Error when fething drop' });
         }
@@ -30,7 +30,7 @@ export const DropController = {
             const { creatureId, itemId } = req.body;
 
             const drop = await DropService.create({ creatureId, itemId });
-            res.json(drop);
+            res.status(201).json(drop);
         } catch (error) {
             res.status(500).json({ error: 'Error when creating a drop' });
         }
@@ -46,7 +46,7 @@ export const DropController = {
                 return res.status(404).json({ error: 'Drop not found' });
             }
 
-            res.json(drop);
+            res.status(200).json(drop);
         } catch (error) {
             res.status(500).json({ error: 'Error when updating a drop' });
         }
@@ -61,7 +61,7 @@ export const DropController = {
                 return res.status(404).json({ error: 'Drop not found' });
             }
 
-            res.json({ message: 'Drop deleted with success' });
+            res.status(200).json({ message: 'Drop deleted with success' });
         } catch (error) {
             res.status(500).json({ error: 'Error when deleting a drop' });
         }
