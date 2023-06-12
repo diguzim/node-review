@@ -131,6 +131,7 @@ const config: Config = {
     '^@interfaces': '<rootDir>/../src/interfaces',
     '^@services': '<rootDir>/../src/services',
     '^@controllers': '<rootDir>/../src/controllers',
+    '^@test_helpers': '<rootDir>/helpers',
   },
 
   // Allows you to use a custom runner instead of Jest's default test runner

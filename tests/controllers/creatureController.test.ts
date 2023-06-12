@@ -2,6 +2,8 @@ import { CreatureController } from '@controllers';
 import { CreatureService } from '@services';
 import { Request, Response } from 'express';
 
+import { fakeResponse } from '@test_helpers';
+
 test('adds 1 + 2 to equal 3', () => {
     expect(1 + 2).toBe(3);
 });
@@ -21,16 +23,12 @@ describe('CreatureController', () => {
                 });
 
                 const req = {} as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
 
-                await CreatureController.getAll(req, res);
+                await CreatureController.getAll(req, fakeResponse);
 
                 expect(CreatureService.getAll).toHaveBeenCalled();
-                expect(res.status).toHaveBeenCalledWith(200);
-                expect(res.json).toHaveBeenCalledWith([creature]);
+                expect(fakeResponse.status).toHaveBeenCalledWith(200);
+                expect(fakeResponse.json).toHaveBeenCalledWith([creature]);
             });
         });
 
@@ -41,42 +39,34 @@ describe('CreatureController', () => {
                 });
 
                 const req = {} as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
 
-                await CreatureController.getAll(req, res);
+                await CreatureController.getAll(req, fakeResponse);
 
                 expect(CreatureService.getAll).toHaveBeenCalled();
-                expect(res.status).toHaveBeenCalledWith(500);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Error when fething creatures' });
+                expect(fakeResponse.status).toHaveBeenCalledWith(500);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Error when fething creatures' });
             });
         });
     });
 
     describe('get', () => {
+        const req = {
+            params: {
+                id: '1'
+            }
+        } as unknown as Request;
+
         describe('success', () => {
             it('should successfully return the creature', async () => {
                 jest.spyOn(CreatureService, 'get').mockImplementation(() => {
                     return Promise.resolve(creature);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.get(req, fakeResponse);
 
-                await CreatureController.get(req, res);
-
-                expect(CreatureService.get).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(200);
-                expect(res.json).toHaveBeenCalledWith(creature);
+                expect(CreatureService.get).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(200);
+                expect(fakeResponse.json).toHaveBeenCalledWith(creature);
             });
         });
 
@@ -86,21 +76,11 @@ describe('CreatureController', () => {
                     return Promise.resolve(null);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.get(req, fakeResponse);
 
-                await CreatureController.get(req, res);
-
-                expect(CreatureService.get).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(404);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Creature not found' });
+                expect(CreatureService.get).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(404);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Creature not found' });
             });
 
             it('should return 500 with proper error message when catches an exception', async () => {
@@ -108,50 +88,36 @@ describe('CreatureController', () => {
                     return Promise.reject();
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.get(req, fakeResponse);
 
-                await CreatureController.get(req, res);
-
-                expect(CreatureService.get).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(500);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Error when fething creature' });
+                expect(CreatureService.get).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(500);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Error when fething creature' });
             });
         });
     });
 
     describe('create', () => {
+        const req = {
+            user: {
+                id: '1'
+            },
+            body: {
+                name: 'creature name'
+            }
+        } as unknown as Request;
+
         describe('success', () => {
             it('should successfully create a creature', async () => {
                 jest.spyOn(CreatureService, 'create').mockImplementation(() => {
                     return Promise.resolve(creature);
                 });
 
-                const req = {
-                    user: {
-                        id: '1'
-                    },
-                    body: {
-                        name: 'creature name'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.create(req, fakeResponse);
 
-                await CreatureController.create(req, res);
-
-                expect(CreatureService.create).toHaveBeenCalledWith({ name: 'creature name' }, { id: '1' });
-                expect(res.status).toHaveBeenCalledWith(201);
-                expect(res.json).toHaveBeenCalledWith(creature);
+                expect(CreatureService.create).toHaveBeenCalledWith({ name: req.body.name }, { id: "1" });
+                expect(fakeResponse.status).toHaveBeenCalledWith(201);
+                expect(fakeResponse.json).toHaveBeenCalledWith(creature);
             });
         });
 
@@ -161,53 +127,36 @@ describe('CreatureController', () => {
                     return Promise.reject();
                 });
 
-                const req = {
-                    user: {
-                        id: '1'
-                    },
-                    body: {
-                        name: 'creature name'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.create(req, fakeResponse);
 
-                await CreatureController.create(req, res);
-
-                expect(CreatureService.create).toHaveBeenCalledWith({ name: 'creature name' }, { id: '1' });
-                expect(res.status).toHaveBeenCalledWith(500);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Error when creating a creature' });
+                expect(CreatureService.create).toHaveBeenCalledWith({ name: req.body.name }, { id: "1" });
+                expect(fakeResponse.status).toHaveBeenCalledWith(500);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Error when creating a creature' });
             });
         });
     });
 
     describe('update', () => {
+        const req = {
+            params: {
+                id: '1'
+            },
+            body: {
+                name: 'creature name'
+            }
+        } as unknown as Request;
+
         describe('success', () => {
             it('should successfully update a creature', async () => {
                 jest.spyOn(CreatureService, 'update').mockImplementation(() => {
                     return Promise.resolve(creature);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    },
-                    body: {
-                        name: 'creature name'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.update(req, fakeResponse);
 
-                await CreatureController.update(req, res);
-
-                expect(CreatureService.update).toHaveBeenCalledWith('1', { name: 'creature name' });
-                expect(res.status).toHaveBeenCalledWith(200);
-                expect(res.json).toHaveBeenCalledWith(creature);
+                expect(CreatureService.update).toHaveBeenCalledWith(req.params.id, { name: req.body.name });
+                expect(fakeResponse.status).toHaveBeenCalledWith(200);
+                expect(fakeResponse.json).toHaveBeenCalledWith(creature);
             });
         });
 
@@ -217,24 +166,11 @@ describe('CreatureController', () => {
                     return Promise.resolve(null);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    },
-                    body: {
-                        name: 'creature name'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.update(req, fakeResponse);
 
-                await CreatureController.update(req, res);
-
-                expect(CreatureService.update).toHaveBeenCalledWith('1', { name: 'creature name' });
-                expect(res.status).toHaveBeenCalledWith(404);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Creature not found' });
+                expect(CreatureService.update).toHaveBeenCalledWith(req.params.id, { name: req.body.name });
+                expect(fakeResponse.status).toHaveBeenCalledWith(404);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Creature not found' });
             });
 
             it('should return 500 with proper error message when catches an exception', async () => {
@@ -242,50 +178,33 @@ describe('CreatureController', () => {
                     return Promise.reject();
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    },
-                    body: {
-                        name: 'creature name'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.update(req, fakeResponse);
 
-                await CreatureController.update(req, res);
-
-                expect(CreatureService.update).toHaveBeenCalledWith('1', { name: 'creature name' });
-                expect(res.status).toHaveBeenCalledWith(500);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Error when updating a creature' });
+                expect(CreatureService.update).toHaveBeenCalledWith(req.params.id, { name: req.body.name });
+                expect(fakeResponse.status).toHaveBeenCalledWith(500);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Error when updating a creature' });
             });
         });
     });
 
     describe('delete', () => {
+        const req = {
+            params: {
+                id: '1'
+            }
+        } as unknown as Request;
+
         describe('success', () => {
             it('should successfully delete a creature', async () => {
                 jest.spyOn(CreatureService, 'delete').mockImplementation(() => {
                     return Promise.resolve(creature);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.delete(req, fakeResponse);
 
-                await CreatureController.delete(req, res);
-
-                expect(CreatureService.delete).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(204);
-                expect(res.json).not.toHaveBeenCalled();
+                expect(CreatureService.delete).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(204);
+                expect(fakeResponse.json).not.toHaveBeenCalled();
             });
         });
 
@@ -295,21 +214,11 @@ describe('CreatureController', () => {
                     return Promise.resolve(null);
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.delete(req, fakeResponse);
 
-                await CreatureController.delete(req, res);
-
-                expect(CreatureService.delete).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(404);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Creature not found' });
+                expect(CreatureService.delete).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(404);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Creature not found' });
             });
 
             it('should return 500 with proper error message when catches an exception', async () => {
@@ -317,21 +226,11 @@ describe('CreatureController', () => {
                     return Promise.reject();
                 });
 
-                const req = {
-                    params: {
-                        id: '1'
-                    }
-                } as unknown as Request;
-                const res = {
-                    json: jest.fn(),
-                    status: jest.fn(() => res),
-                } as unknown as Response;
+                await CreatureController.delete(req, fakeResponse);
 
-                await CreatureController.delete(req, res);
-
-                expect(CreatureService.delete).toHaveBeenCalledWith('1');
-                expect(res.status).toHaveBeenCalledWith(500);
-                expect(res.json).toHaveBeenCalledWith({ error: 'Error when deleting a creature' });
+                expect(CreatureService.delete).toHaveBeenCalledWith(req.params.id);
+                expect(fakeResponse.status).toHaveBeenCalledWith(500);
+                expect(fakeResponse.json).toHaveBeenCalledWith({ error: 'Error when deleting a creature' });
             });
         });
     });
