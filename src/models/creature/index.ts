@@ -23,6 +23,4 @@ creatureSchema.statics.build = (attr: ICreature) => {
     return new Creature(attr);
 };
 
-const Creature = mongoose.model<ICreature, CreatureModelInterface>('Creature', creatureSchema);
-
-export { Creature };
+export const Creature = mongoose.model<ICreature, CreatureModelInterface>('Creature', creatureSchema);

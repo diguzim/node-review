@@ -1,7 +1,7 @@
 import { IItem } from '@interfaces';
 import mongoose, { Types } from 'mongoose';
 
-interface ItemDoc extends mongoose.Document, IItem { }
+export interface ItemDoc extends mongoose.Document, IItem { }
 
 interface ItemModelInterface extends mongoose.Model<ItemDoc> {
     build(attr: IItem): ItemDoc;
@@ -23,6 +23,4 @@ itemSchema.statics.build = (attr: IItem) => {
     return new Item(attr);
 };
 
-const Item = mongoose.model<IItem, ItemModelInterface>('Item', itemSchema);
-
-export { Item };
+export const Item = mongoose.model<IItem, ItemModelInterface>('Item', itemSchema);

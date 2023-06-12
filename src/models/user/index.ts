@@ -1,7 +1,7 @@
 import { IUser } from '@interfaces';
 import mongoose from 'mongoose';
 
-interface UserDoc extends mongoose.Document, IUser {}
+export interface UserDoc extends mongoose.Document, IUser { }
 
 interface UserModelInterface extends mongoose.Model<UserDoc> {
     build(attr: IUser): UserDoc;
@@ -27,6 +27,4 @@ userSchema.statics.build = (attr: IUser) => {
     return new User(attr);
 };
 
-const User = mongoose.model<IUser, UserModelInterface>('User', userSchema);
-
-export { User, UserDoc };
+export const User = mongoose.model<IUser, UserModelInterface>('User', userSchema);

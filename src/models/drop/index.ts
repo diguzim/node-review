@@ -1,7 +1,7 @@
 import { IDrop } from '@interfaces';
 import mongoose, { Types } from 'mongoose';
 
-interface DropDoc extends mongoose.Document, IDrop { }
+export interface DropDoc extends mongoose.Document, IDrop { }
 
 interface DropModelInterface extends mongoose.Model<DropDoc> {
     build(attr: IDrop): DropDoc;
@@ -24,6 +24,4 @@ dropSchema.statics.build = (attr: IDrop) => {
     return new Drop(attr);
 };
 
-const Drop = mongoose.model<IDrop, DropModelInterface>('Drop', dropSchema);
-
-export { Drop };
+export const Drop = mongoose.model<IDrop, DropModelInterface>('Drop', dropSchema);
