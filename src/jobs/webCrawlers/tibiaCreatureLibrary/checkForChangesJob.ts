@@ -1,10 +1,25 @@
 import axios from 'axios';
+import { Queue } from 'bullmq';
 import * as cheerio from 'cheerio';
 
-const url = "https://www.tibia.com/library/?subtopic=creatures";
+const CREATURES_URL = "https://www.tibia.com/library/?subtopic=creatures";
+
+function buildQueue() {
+    return new Queue(
+        'GenericQueue',
+        {
+            connection: {
+                host: process.env.REDIS_HOST,
+                port: Number(process.env.REDIS_PORT),
+            }
+        }
+    );
+}
 
 async function getCreatures() {
-    const response = await axios.get(url);
+    const queue = buildQueue();
+
+    const response = await axios.get(CREATURES_URL);
     const page = cheerio.load(response.data);
 
     const creature_div_elements = page(".Creatures > div").toArray();
@@ -15,20 +30,10 @@ async function getCreatures() {
 
         const race = (url.match(/creatures&race=(.+)$/) as RegExpMatchArray)[1];
 
-        // TODO: do something further with it after I setup a job execution system
+        await queue.add('CheckCreatureLibraryEntryForChangesJob', { race });
     }
 }
 
-async function main() {
+export const checkForChangesJob = async function main() {
     await getCreatures();
-}
-
-main()
-    .then(() => {
-        console.log("Script concluído com sucesso");
-        process.exit(0);
-    })
-    .catch((error) => {
-        console.error("Ocorreu um erro durante a execução do script:", error);
-        process.exit(1);
-    });
+};

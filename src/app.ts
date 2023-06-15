@@ -3,6 +3,10 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes";
 import mongoose from 'mongoose';
+import { Queue } from "bullmq";
+import { checkForChangesJob } from "jobs/webCrawlers/tibiaCreatureLibrary/checkForChangesJob";
+
+require('./workers');
 
 dotenv.config();
 
@@ -14,10 +18,10 @@ mongoose.connect(process.env.MONGO_HOST as string, {
 ).catch(
     () => {
         console.log('Couldn\'t connect to database');
-        process.exit(1); 
+        process.exit(1);
     }
 );
-    
+
 
 if (!process.env.PORT) {
     console.log('Missing port environment variable');
@@ -36,3 +40,12 @@ app.use('/', routes);
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
+
+const queue = new Queue('GenericQueue', {
+    connection: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+    }
+});
+
+checkForChangesJob();
