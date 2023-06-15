@@ -31,9 +31,10 @@ async function getCreatures() {
         const race = (url.match(/creatures&race=(.+)$/) as RegExpMatchArray)[1];
 
         await queue.add('CheckCreatureLibraryEntryForChangesJob', { race });
+        break;
     }
 }
 
-export const checkForChangesJob = async function main() {
+export const checkForChangesWorker = async function main() {
     await getCreatures();
 };
