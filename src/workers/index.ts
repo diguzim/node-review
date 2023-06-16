@@ -1,13 +1,7 @@
-import { Job, Worker } from "bullmq";
-import { checkCreatureLibraryEntryForChangesWorker, checkForChangesWorker } from "./webCrawlers";
-
 console.log('Registering workers...');
-new Worker(
-    'GenericQueue',
-    async (job: Job) => {
-        checkCreatureLibraryEntryForChangesWorker(job.data);
-    }
-);
+
+import { checkForChangesWorker } from "./webCrawlers";
+import "./webCrawlers";
 
 // This is initiated here just for testing purposes currently
 checkForChangesWorker();
