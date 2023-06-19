@@ -1,20 +1,8 @@
 import axios from 'axios';
-import { Queue } from 'bullmq';
 import * as cheerio from 'cheerio';
+import { buildQueue } from './queue';
 
 const CREATURES_URL = "https://www.tibia.com/library/?subtopic=creatures";
-
-function buildQueue() {
-    return new Queue(
-        'GenericQueue',
-        {
-            connection: {
-                host: process.env.REDIS_HOST,
-                port: Number(process.env.REDIS_PORT),
-            }
-        }
-    );
-}
 
 async function getCreatures() {
     const queue = buildQueue();
@@ -30,7 +18,7 @@ async function getCreatures() {
 
         const race = (url.match(/creatures&race=(.+)$/) as RegExpMatchArray)[1];
 
-        await queue.add('CheckCreatureLibraryEntryForChangesJob', { race });
+        await queue.add('CheckCreatureLibraryEntryForChangesWorker', { race });
         break;
     }
 }

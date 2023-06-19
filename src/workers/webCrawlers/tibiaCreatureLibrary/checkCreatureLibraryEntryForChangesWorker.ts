@@ -1,6 +1,8 @@
+import { Creature, CreatureLibraryEntry } from "@models";
 import axios from "axios";
 import { Job, Worker } from "bullmq";
 import * as cheerio from "cheerio";
+import { NotifyLibraryEntryDescriptionChangeWorker } from "./notifyLibraryEntryDescriptionChangeWorker";
 
 new Worker(
     'GenericQueue',
@@ -31,5 +33,21 @@ export const checkCreatureLibraryEntryForChangesWorker = async function (race: s
 
     console.log(description);
 
-    // TODO: Check for existing database entry based on race
+    const existing_creature_library_entry = await CreatureLibraryEntry.findOne({ race: race });
+
+    if (existing_creature_library_entry) {
+        if (existing_creature_library_entry.description != description) {
+            NotifyLibraryEntryDescriptionChangeWorker(race);
+        }
+    } else {
+        const creature = await Creature.create({ name: pluralized_name });
+
+        CreatureLibraryEntry.create({
+            race,
+            pluralizedName: pluralized_name,
+            description,
+            creatureId: creature.id,
+        });
+    }
+
 };

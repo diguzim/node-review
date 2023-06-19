@@ -13,7 +13,7 @@ const creatureLibraryEntrySchema = new mongoose.Schema({
         ref: 'Creature',
         required: true
     },
-    text: {
+    description: {
         type: String,
         required: true
     },
